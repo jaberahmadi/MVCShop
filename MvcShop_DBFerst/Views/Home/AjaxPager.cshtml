@@ -1,0 +1,32 @@
+﻿@model WiewModels.PageListViewModel
+
+@{
+    ViewBag.Title = "AjaxPager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="block grid12">
+    <div class="breadcrumb">
+        <a href="/Home/Index">صفحه اصلی</a><span>›</span><a href="/Home/GetResellers">لیست نمایندگی ها</a>
+    </div>
+</div>
+<div class="full12">
+    <div class="block grid12">
+        <h1 class="block-header">لیست نمایندگی ها</h1>
+        <div class="separator"></div>
+        <div class="block-standart">
+            <div class="form inline">
+                <div class="group">
+                    @Html.Partial("_AjaxPager", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section  scripts{
+    <script src="~/Scripts/path.js"></script>
+    <script src="~/Scripts/jquery.pager-1.0.2.js"></script>
+    <script>
+        $("#divAjaxPager").pager();
+    </script>
+}

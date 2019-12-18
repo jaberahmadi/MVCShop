@@ -1,0 +1,137 @@
+﻿@using WiewModels;
+
+@model AddProductViewModel
+
+@{
+    ViewBag.Title = "EditProduct";
+}
+
+<div class="block grid12">
+    <div class="breadcrumb">
+        <a href="/Home/Index">صفحه اصلی</a><span>›</span><a href="/Admin/EditProduct">ویرایش محصول</a>
+    </div>
+</div>
+<div class="full12">
+    <div class="block grid12">
+        @using (Html.BeginForm("EditProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "myUploadForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.Product.Id)
+            <h1 class="block-header">افزودن محصول</h1>
+            <div class="separator"></div>
+            <div class="block-standart">
+                <div class="form inline">
+                    <div class="group">
+                        @Html.LabelFor(model => model.Product.GroupId, new { @class = "label" })
+                        <div class="controls">
+                            @Html.Partial("_GroupList", @Model.Groups, new ViewDataDictionary { { "id", "Product_GroupId" }, { "name", "Product.GroupId" }, { "selectedid", Model.Product.GroupId } })
+                        </div>
+                    </div>
+                    <div class="group">
+                        @Html.LabelFor(model => model.Product.Name, new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Product.Name, new { @class = "text", style = "width: 240px;" })
+                            @Html.ValidationMessageFor(model => model.Product.Name)
+                        </div>
+                    </div>
+                    <div class="group">
+                        @Html.LabelFor(model => model.Product.Price, new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Product.Price, new { @class = "text", style = "width: 240px;" })
+                            @Html.ValidationMessageFor(model => model.Product.Price)
+                        </div>
+                    </div>
+                    <div class="group">
+                        @Html.LabelFor(model => model.Product.Url, new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Product.Url, new { @class = "text", style = "width: 240px;" })
+                            @Html.ValidationMessageFor(model => model.Product.Url)
+                        </div>
+                    </div>
+                    <div class="group">
+                        @Html.LabelFor(model => model.Product.Summery)
+                        <div class="controls">
+                            @Html.TextAreaFor(model => model.Product.Summery, new { @class = "text" })
+                            @Html.ValidationMessageFor(model => model.Product.Summery)
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 22px;">
+                        @Html.LabelFor(model => model.Product.Keywords, new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Product.Keywords, new { @class = "text" })
+                            @Html.ValidationMessageFor(model => model.Product.Keywords)
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 22px;">
+                        @Html.LabelFor(model => model.Product.Description, new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Product.Description, new { @class = "text", style = "width:85%;height: 35px;" })
+                            @Html.ValidationMessageFor(model => model.Product.Description)
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 22px;">
+                        @Html.LabelFor(model => model.Product.Tags, new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Product.Tags, new { @class = "text" })
+                            @Html.ValidationMessageFor(model => model.Product.Tags)
+                        </div>
+                    </div>
+                    <div class="group">
+                        @Html.LabelFor(model => model.Product.Enabled, new { @class = "label" })
+                        <div class="controls">
+                            @Html.CheckBoxFor(model => model.Product.Enabled, new { @class = "text" })
+                            @Html.ValidationMessageFor(model => model.Product.Enabled)
+                        </div>
+                    </div>
+                    <div class="group">
+                        @Html.LabelFor(model => model.Product.Image, new { @class = "label" })
+                        <div class="controls">
+                            @Html.ImageFor(model => model.Product.Image, new { width = "80" }, "Tulips.jpg", "Files", "UploadImages")
+                            @Html.Upload("UploadImage")
+                            @Html.HiddenFor(model => model.Product.Image)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="separator"></div>
+            <div class="block-standart">
+                <div class="form">
+                    <div class="group">
+                        <div class="controls">
+                            <button class="button">ثبت ویرایش</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section styles{
+    <link href="@Url.Content("~/Scripts/TagsInput/bootstrap-tagsinput.css")" rel="stylesheet" />
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/AjaxForm/jquery.form.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/AutoNumeric/jquery-price.js")"></script>
+    <script src="@Url.Content("~/Scripts/TagsInput/bootstrap-tagsinput.min.js")"></script>
+    @Html.CKEditorHeaderScripts()
+    <script>
+        $(function () {
+            $("#Product_Price").price();
+            $("#Product_Summery").ckeditor();
+            $("#Product_Keywords").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                }
+            }).tagsinput();
+            $("#Product_Tags").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                }
+            }).tagsinput();
+        });
+        $("#myUploadForm").ajaxForm();
+    </script>
+}

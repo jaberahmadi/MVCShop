@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Reseller>
+@using DomainClass;
+
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="block grid12">
+    <div class="breadcrumb">
+        <a href="/Home/Index">صفحه اصلی</a><span>›</span><a href="/Test/List">لیست نمایندگی ها</a>
+    </div>
+</div>
+<div class="full12">
+    <div class="block grid12">
+        <h1 class="block-header">لیست نمایندگی ها</h1>
+        <div class="separator"></div>
+        <div class="block-standart">
+            <div class="form inline">
+                @using (Ajax.BeginForm("Search", "Test", new AjaxOptions
+                {
+                    HttpMethod = "Post",
+                    InsertionMode = InsertionMode.Replace,
+                    LoadingElementId = "imgLoading",
+                    LoadingElementDuration = 1000,
+                    Url = "/Test/Search",
+                    UpdateTargetId = "divSearch"
+                }))
+                {
+                    <div class="group">
+                        @Html.Label("جستجو روی نام", new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBox("txtSearchName", null, new { @class = "text", style = "width: 240px;" })
+                        </div>
+                    </div>
+                    <div class="group">
+                        @Html.Label("جستجو روی آدرس", new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBox("txtSearchAddress", null, new { @class = "text", style = "width: 240px;" })
+                        </div>
+                    </div>
+                    <div class="block-standart">
+                        <div class="form">
+                            <div class="group">
+                                <div class="controls">
+                                    <img src="~/Content/Images/loading (1).gif" id="imgLoading" style="display:none" />
+                                    <button class="button">جستجو</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @Html.Partial("_SearchReseller", Model)
+
+                @*<div id="divSearch">
+                        <table class="table-full table-total">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Address)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OstanId)
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Address)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Ostan.Name)
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>*@
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+﻿@model Product
+@using DomainClass
+
+@{
+    ViewBag.Title = "ShowProducts";
+}
+
+
+<div class="block grid12">
+    <div class="breadcrumb">
+        <a href="/Home/Index">صفحه اصلی</a><span>›</span><a href="/Home/Index">محصولات</a>
+    </div>
+</div>
+<div class="full12">
+    <div class="block grid12">
+
+        <h1 class="block-header">@Model.Name</h1>
+        <div class="separator"></div>
+        <div class="block-standart">
+            <div class="form inline">
+                <div class="group">
+                    <div class="controls">
+                        @Html.ImageFor(modelItem => modelItem.Image, new { width = "300" }, "Tulips.jpg", "Files", "UploadImages")
+                    </div>
+                </div>
+                <div class="group">
+                    <label class="label">@Html.DisplayNameFor(model => model.Group.Name)</label>
+                    <div class="controls">
+                        @Html.DisplayFor(model => model.Group.Name)
+                    </div>
+                </div>
+                <div class="group">
+                    <label class="label">@Html.DisplayNameFor(model => model.Price)</label>
+                    <div class="controls">
+                        @Model.Price.ToPrice() تومان
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="controls">
+                        @Html.DisplayFor(model => model.Summery)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

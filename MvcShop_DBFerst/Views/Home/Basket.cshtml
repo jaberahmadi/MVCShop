@@ -1,0 +1,119 @@
+﻿@model List<WiewModels.BasketViewModel>
+
+@{
+    ViewBag.Title = "Basket";
+}
+
+
+<div class="block grid12">
+    <div class="breadcrumb">
+        <a href="/Home/Index">صفحه اصلی</a><span>›</span><a href="/Home/Basket">سبد خرید</a>
+    </div>
+</div>
+<div class="full12">
+    <div class="block grid12">
+        @using (Html.BeginForm("AddGroup", "Admin", FormMethod.Post, new { id = "myForm" }))
+        {
+            <h1 class="block-header">محصولات سبد خرید</h1>
+            <div class="separator"></div>
+            <div class="block-standart">                @Html.ActionLink("مرحله بعد", "Buy", null, new { @class = "button" })
+                <div class="form inline">
+                    @*<div class="group">
+                            @Html.ActionLink("افزودن محصول جدید", "AddProduct", "Admin", null, new { @class = "button" })
+                        </div>*@
+                    <div class="group">
+                        <table class="table-full table-total">
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("تصویر")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("نام محصول")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("قیمت")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("تعداد")
+                                </th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ImageFor(modelItem => item.Product.Image, new { width = "80" }, "Tulips.jpg", "Files", "UploadImages")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Product.Name)
+                                        <img src="~/Content/Images/delete.png" alt="حذف محصول" style="cursor:pointer;" class="deleteProduct" productid="@item.Product.Id" />
+                                    </td>
+                                    <td>
+                                        @item.Product.Price.ToString().Trim('0').Trim('.').ToPrice() تومان
+                                    </td>
+                                    <td>
+                                        @Html.TextAreaFor(modelItem => item.Count, new { @class = "text txtCountProduct", style = "width: 40px;", productid = item.Product.Id })
+                                    </td>
+                                    @*<td>
+                                            @Html.ActionLink("ویرایش", "EditProduct", new { id = item.Id }) |
+                                            @Html.ActionLink("حذف", "DeleteProduct", new { id = item.Id }, new { onclick = "return confirm('جهت حذف مطمئن هستید ؟')" })
+                                        </td>*@
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/Scripts/AutoNumeric/jquery-price.js"></script>
+    <script>
+        $(function () {
+            $(".txtCountProduct").price();
+
+            $(".deleteProduct").click(function () {
+                var id = $(this).attr("productid");
+                var img = $(this);
+                $.ajax({
+                    url: "/Home/RemoveCart",
+                    data: { Id: id },
+                    type: "Post",
+                    dataType: "Json",
+                    success: function (result) {
+                        if (result.Success) {
+                            img.parent().parent().hide();
+                            $("#CartItems").html(result.Html);
+                        }
+                        eval(result.Script);
+                    },
+                    error: function () {
+                        alert("خطا!");
+                    }
+                });
+            });
+
+            $(".txtCountProduct").change(function () {
+                var count = $(this).val();
+                var id = $(this).attr("productid");
+                $.ajax({
+                    url: "/Home/AddToCart",
+                    data: { Id: id, Count: count },
+                    type: "Post",
+                    dataType: "Json",
+                    success: function (result) {
+                        if (result.Success) {
+                            $("#CartItems").html(result.Html);
+                        }
+                        eval(result.Script);
+                    },
+                    error: function () {
+                        alert("خطا!");
+                    }
+                });
+            });
+        });
+    </script>
+}

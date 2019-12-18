@@ -1,0 +1,66 @@
+﻿@model PageListViewModel
+@using Utilities
+@using WiewModels;
+
+
+@{
+    ViewBag.Title = "GetResellers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="block grid12">
+    <div class="breadcrumb">
+        <a href="/Home/Index">صفحه اصلی</a><span>›</span><a href="/Home/GetResellers">لیست نمایندگی ها</a>
+    </div>
+</div>
+<div class="full12">
+    <div class="block grid12">
+        <h1 class="block-header">لیست نمایندگی ها</h1>
+        <div class="separator"></div>
+        <div class="block-standart">
+            <div class="form inline">
+                <div class="group">
+                    <table class="table-full table-total">
+                        <tr>
+                            <th>
+                                @Html.DisplayName("نام نمایندگی")
+                            </th>
+                            <th>
+                                @Html.DisplayName("استان")
+                            </th>
+                            <th>
+                                @Html.DisplayName("شهر")
+                            </th>
+                            <th>
+                                @Html.DisplayName("آدرس")
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model.Resellers)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ostan.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.City.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <div class="block-pagination" style="direction: ltr">
+                        @Html.Pager(10, Model.CurrentPage, Model.TotalItemCount)
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

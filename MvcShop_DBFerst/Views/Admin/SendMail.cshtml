@@ -1,0 +1,81 @@
+﻿@model string
+@{
+    ViewBag.Title = "SendMail";
+}
+<div class="block grid12">
+    <div class="breadcrumb">
+        <a href="/Home/Index">صفحه اصلی</a><span>›</span><a href="/Admin/SendMail">ارسال ایمیل</a>
+    </div>
+</div>
+
+<div class="full12">
+    <div class="block grid12">
+        @using (Html.BeginForm("SendMail", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEmail" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <h1 class="block-header">ارسال ایمیل</h1>
+            <div class="separator"></div>
+            <div class="block-standart">
+                <div class="form inline">
+                    <div>
+                        @Html.Label("گیرندگان", new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBox("Recivers", Model, new { @class = "text", style = "width: 100%" })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.Label("عنوان پیام", new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBox("Title", "", new { @class = "text", style = "width: 250px;" })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.Label("متن پیام", new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextArea("Text", new { @class = "text" })
+                        </div>
+                    </div>
+                    <div class="group">
+                        @Html.Label("فایل ضمیمه", new { @class = "label" })
+                        <div class="controls">
+                            @Html.Upload("Attachment")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="separator"></div>
+            <div class="block-standart">
+                <div class="form">
+                    <div class="group">
+                        <div class="controls">
+                            <button class="button">ارسال ایمیل</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section styles{
+    <link href="@Url.Content("~/Scripts/TagsInput/bootstrap-tagsinput.css")" rel="stylesheet" />
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/AjaxForm/jquery.form.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/TagsInput/bootstrap-tagsinput.min.js")"></script>
+    @Html.CKEditorHeaderScripts()
+    <script>
+        $(function () {
+            $("#Text").ckeditor();
+            $("#Recivers").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                }
+            }).tagsinput();
+        });
+        $("#formEmail").ajaxForm();
+    </script>
+}

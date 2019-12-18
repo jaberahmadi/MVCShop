@@ -1,0 +1,87 @@
+﻿@model AddResellerViewModel
+@using WiewModels;
+
+@{
+    ViewBag.Title = "AddReseller";
+}
+
+<div class="block grid12">
+    <div class="breadcrumb">
+        <a href="/Home/Index">صفحه اصلی</a><span>›</span><a href="/Test/AddReseller">افزودن نمایندگی جدید</a>
+    </div>
+</div>
+<div class="full12">
+    <div class="block grid12">
+        <h1 class="block-header">افزودن نمایندگی</h1>
+        <div class="separator"></div>
+        <div class="block-standart">
+
+            @*@using (Html.BeginForm("AddReseller", "Test", FormMethod.Post))*@
+            @using (Ajax.BeginForm("AddReseller", "Test", new AjaxOptions { HttpMethod = "Post", Url = "/Test/AddReseller" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="form inline">
+                    <div>
+                        @ViewBag.Message
+                    </div>
+                    <div class="group">
+                        @Html.LabelFor(model => model.Reseller.Name, new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.Reseller.Name, new { @class = "text", style = "width: 240px;" })
+                            @Html.ValidationMessageFor(model => model.Reseller.Name)
+                        </div>
+                    </div>
+                    <div class="group">
+                        @Html.LabelFor(model => model.Reseller.Address, new { @class = "label" })
+                        <div class="controls">
+                            @Html.TextAreaFor(model => model.Reseller.Address, new { @class = "text", style = "width: 98%;" })
+                            @Html.ValidationMessageFor(model => model.Reseller.Address)
+                        </div>
+                    </div>
+                    <div class="group">
+                        @Html.LabelFor(model => model.Reseller.Ostan.OstanId, new { @class = "label" })
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.Reseller.Ostan.OstanId, new SelectList(Model.Proviences, "Id", "Name"), "استان مورد نظر خود را انتخاب کنید")
+                            @Html.ValidationMessageFor(model => model.Reseller.Ostan.OstanId)
+                        </div>
+                    </div>
+                    <div class="group" id="divDrpCity">
+                    </div>
+                </div>
+                <div class="separator"></div>
+                <div class="block-standart">
+                    <div class="form">
+                        <div class="group">
+                            <div class="controls">
+                                <button class="button">افزودن</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#Reseller_OstanId").change(function () {
+                $.ajax({
+                    url: "/Test/GetCities",
+                    data: { ostanId: $("#Reseller_OstanId").find(":selected").val() },
+                    type: "Post",
+                    dataType: "Html",
+                    success: function (result) {
+                        $("#divDrpCity").html(result);
+                    },
+                    error: function () {
+                        alert("خطا!");
+                    }
+                });
+            });
+        })
+    </script>
+}

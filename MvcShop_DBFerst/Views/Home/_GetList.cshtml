@@ -1,0 +1,48 @@
+﻿@model WiewModels.PageListViewModel
+
+
+<div id="divList">
+    <table class="table-full table-total">
+        <tr>
+            <th>
+                @Html.DisplayName("ID")
+            </th>
+            <th>
+                @Html.DisplayName("نام نمایندگی")
+            </th>
+            <th>
+                @Html.DisplayName("استان")
+            </th>
+            <th>
+                @Html.DisplayName("شهر")
+            </th>
+            <th>
+                @Html.DisplayName("آدرس")
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Resellers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ostan.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="block-pagination" style="direction: ltr">
+        @Ajax.Pager(10, Model.CurrentPage, Model.TotalItemCount, "GetResellersAjax", new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "divList" })
+    </div>
+</div>

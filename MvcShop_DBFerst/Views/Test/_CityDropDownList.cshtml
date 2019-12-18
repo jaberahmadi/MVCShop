@@ -1,0 +1,8 @@
+﻿@model CityDrpViewModel
+@using WiewModels;
+
+@Html.LabelFor(model => model.Reseller.ResellerId, new { @class = "label" })
+<div class="controls">
+    @Html.DropDownListFor(model => model.Reseller.City.CityId, new SelectList(Model.Cities, "Id", "Name"), "شهر نمایندگی را انتخاب کنید")
+    @Html.ValidationMessageFor(model => model.Reseller.City.CityId)
+</div>

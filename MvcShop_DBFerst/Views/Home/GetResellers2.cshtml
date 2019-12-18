@@ -1,0 +1,26 @@
+﻿@model PageListViewModel
+
+@{
+    ViewBag.Title = "GetResellers2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="block grid12">
+    <div class="breadcrumb">
+        <a href="/Home/Index">صفحه اصلی</a><span>›</span><a href="/Home/GetResellers">لیست نمایندگی ها</a>
+    </div>
+</div>
+<div class="full12">
+    <div class="block grid12">
+        <h1 class="block-header">لیست نمایندگی ها</h1>
+        <div class="separator"></div>
+        <div class="block-standart">
+            <div class="form inline">
+                <div class="group">
+                    @Html.Partial("_GetList", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

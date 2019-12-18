@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Reseller>
+@using DomainClass;
+
+<div class="title">لیست 10 نمایندگی اخیر</div>
+<div id="slideshow">
+    @foreach (var item in Model)
+    {
+        <span>
+            @item.Name
+            <hr />
+            @item.Address
+        </span>
+    }
+</div>
