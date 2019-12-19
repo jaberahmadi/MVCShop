@@ -1,0 +1,13 @@
+body {
+  background-color: #000;
+}
+.navbar {
+  position:fixed;
+  width:100%;
+  background-color:#fff ;
+  opacity: 0;
+}
+
+.navbar-nav > li > a {
+  color: #fff;
+}

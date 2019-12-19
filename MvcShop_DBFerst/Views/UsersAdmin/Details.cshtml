@@ -4,42 +4,47 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details.</h2>
 
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-    </dl>
-</div>
-<h4>List of roles for this user</h4>
-@if (ViewBag.RoleNames.Count == 0)
-{
-    <hr />
-    <p>No roles found for this user.</p>
-}
+    <div class="block grid12">
+        <h1 class="block-header">مشخصات کاربر</h1>
+        <div>
 
-<table class="table">
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserName) :
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+            </dl>
+        </div>
+        <hr />
+        <h1 class="block-header">لیست سطوح دسترسی</h1>
+        @if (ViewBag.RoleNames.Count == 0)
+        {
+            <hr />
+            <p>سطح دسترسی برای این کاربر تعریف نشده است</p>
+        }
 
-    @foreach (var item in ViewBag.RoleNames)
-    {
-        <tr>
-            <td>
-                @item
-            </td>
-        </tr>
-    }
-</table>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+        <table class="table table-striped ">
 
+            @foreach (var item in ViewBag.RoleNames)
+            {
+                <tr>
+                    <td>
+                        @item
+                    </td>
+                </tr>
+            }
+        </table>
+        <p>
+            @Html.ActionLink("ویرایش", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("برگشت", "Index")
+        </p>
+
+
+
+    </div>
 
 

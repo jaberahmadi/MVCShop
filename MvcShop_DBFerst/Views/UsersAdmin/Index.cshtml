@@ -1,36 +1,46 @@
 ﻿@model IEnumerable<IdentitySample.Models.ApplicationUser>
 
 @{
+    Layout = Layout;
     ViewBag.Title = "Index";
 }
+<div class="block grid12">
+    <div class="breadcrumb">
+        <a href="/Home/Index">صفحه اصلی</a><span>›</span><a href="/UsersAdmin/index">ویرایش محصول</a>
+    </div>
+</div>
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th>
+    <div class="block grid12">
 
-        </th>
-    </tr>
+        <table class="table table-striped ">
+            <h1 class="block-header">مدیریت کاربران</h1>
+            <p class="btn btn-group">
+                @Html.ActionLink("افزودن مورد جدید", "Create")
+            </p>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
+                </th>
+            </tr>
 
-</table>
+            @foreach (var item in Model)
+            {
+                int i = Model.Count();
+                <tr class="table-bordered">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("ویرایش", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("توضیحات", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("حذف", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
